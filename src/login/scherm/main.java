@@ -30,7 +30,7 @@ public class main extends javax.swing.JFrame {
         String wachtwoord = new String(passwordField.getPassword());
         
         try{
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","java","1234");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
             
             Statement stm = con.createStatement();
             
@@ -55,13 +55,12 @@ public class main extends javax.swing.JFrame {
             }
         }
         catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
         
         return correct;
         
     }
-    
     
 
     /**
@@ -205,6 +204,7 @@ public class main extends javax.swing.JFrame {
                 message.setText("Inlog gefaald");
             }
         }
+        new ToevoegScherm().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
