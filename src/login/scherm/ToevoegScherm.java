@@ -7,6 +7,7 @@ package login.scherm;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -47,11 +48,12 @@ public class ToevoegScherm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 23, 250, 400));
         setMinimumSize(new java.awt.Dimension(250, 400));
+        setPreferredSize(new java.awt.Dimension(250, 418));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBounds(new java.awt.Rectangle(0, 23, 250, 400));
         jPanel1.setMaximumSize(new java.awt.Dimension(250, 400));
-        jPanel1.setPreferredSize(new java.awt.Dimension(250, 400));
+        jPanel1.setPreferredSize(new java.awt.Dimension(250, 418));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/button.png"))); // NOI18N
@@ -60,7 +62,7 @@ public class ToevoegScherm extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 90, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 90, 40));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -73,7 +75,7 @@ public class ToevoegScherm extends javax.swing.JFrame {
 
         gewichtField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         gewichtField.setText("Gewicht");
-        jPanel1.add(gewichtField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 190, -1));
+        jPanel1.add(gewichtField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 190, -1));
 
         merkField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         merkField.setText("Merk");
@@ -87,11 +89,11 @@ public class ToevoegScherm extends javax.swing.JFrame {
 
         naamField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         naamField.setText("Naam");
-        jPanel1.add(naamField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 190, -1));
+        jPanel1.add(naamField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 190, -1));
 
         soortField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         soortField.setText("Soort");
-        jPanel1.add(soortField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 190, -1));
+        jPanel1.add(soortField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 190, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,15 +116,28 @@ public class ToevoegScherm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
+            int product_id = 0;
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
             
             Statement stm = con.createStatement();
             
+            ResultSet myQr = stm.executeQuery("select naam from Product where naam = '" + naamField.getText() + "'");
+            //if(){
+                
+            //}
             stm.executeUpdate("insert into Product(merk, naam, soort, gewicht)" + " values "
                     + "('" + merkField.getText() + "','"
                     + naamField.getText() + "','"
                     + soortField.getText() + "', "
-                    + gewichtField.getText() + ")");      
+                    + gewichtField.getText() + ")"); 
+            
+            
+            myQr = stm.executeQuery("select product_id from Product where naam = '" + naamField.getText() + "'");
+            while(myQr.next()){
+                product_id = myQr.getInt("product_id");
+            }
+            //stm.executeUpdate("insert into Donatie " + "values (" + product_id + ", " + session.account_id + ")");
+            stm.close();
         }
         catch(SQLException e){
             e.printStackTrace();
