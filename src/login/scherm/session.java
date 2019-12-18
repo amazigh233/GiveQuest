@@ -11,4 +11,5 @@ package login.scherm;
  */
 public class session {
     static int account_id;
+    static String email;
 }

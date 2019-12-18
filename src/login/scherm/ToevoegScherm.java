@@ -7,6 +7,7 @@ package login.scherm;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,6 +27,8 @@ public class ToevoegScherm extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,18 +40,18 @@ public class ToevoegScherm extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        sumbitBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         gewichtField = new javax.swing.JTextField();
         merkField = new javax.swing.JTextField();
         naamField = new javax.swing.JTextField();
         soortField = new javax.swing.JTextField();
+        messageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 23, 250, 400));
         setMinimumSize(new java.awt.Dimension(250, 400));
-        setPreferredSize(new java.awt.Dimension(250, 418));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBounds(new java.awt.Rectangle(0, 23, 250, 400));
@@ -56,13 +59,13 @@ public class ToevoegScherm extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 418));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/button.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        sumbitBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/button.png"))); // NOI18N
+        sumbitBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                sumbitBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 90, 40));
+        jPanel1.add(sumbitBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 90, 40));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -95,6 +98,9 @@ public class ToevoegScherm extends javax.swing.JFrame {
         soortField.setText("Soort");
         jPanel1.add(soortField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 190, -1));
 
+        messageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(messageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, 100, 260, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,35 +120,54 @@ public class ToevoegScherm extends javax.swing.JFrame {
     private void merkFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_merkFieldActionPerformed
     }//GEN-LAST:event_merkFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void sumbitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumbitBtnActionPerformed
         try{
-            int product_id = 0;
+            //int product_id = 0;
+            ResultSet myQr;
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
-            
             Statement stm = con.createStatement();
             
-            ResultSet myQr = stm.executeQuery("select naam from Product where naam = '" + naamField.getText() + "'");
-            //if(){
-                
-            //}
-            stm.executeUpdate("insert into Product(merk, naam, soort, gewicht)" + " values "
+            PreparedStatement ps = con.prepareStatement("SELECT naam FROM Product WHERE naam = ?");
+            ps.setString(1, naamField.getText());
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                messageLabel.setText("Bedoelt u misschien");
+                myQr = stm.executeQuery("select merk, merk, soort, gewicht from Product");
+                while(myQr.next()){
+                    merkField.setText("merk");
+                    naamField.setText("naam");
+                    soortField.setText("soort");
+                    gewichtField.setText("gewicht");
+                    
+                }
+            }
+            else{
+                messageLabel.setText("");
+                stm.executeUpdate("insert into Product(merk, naam, soort, gewicht)" + " values "
                     + "('" + merkField.getText() + "','"
                     + naamField.getText() + "','"
                     + soortField.getText() + "', "
                     + gewichtField.getText() + ")"); 
             
-            
-            myQr = stm.executeQuery("select product_id from Product where naam = '" + naamField.getText() + "'");
-            while(myQr.next()){
-                product_id = myQr.getInt("product_id");
+                //Dit hoort in donatie scherm
+                /*myQr = stm.executeQuery("select product_id from Product where naam = '" + naamField.getText() + "'");
+                while(myQr.next()){
+                    product_id = myQr.getInt("product_id");
+                    
+                }
+                stm.executeUpdate("insert into Donatie " + "values (" + product_id + ", " + session.account_id + ")");
+                */
+                
             }
-            //stm.executeUpdate("insert into Donatie " + "values (" + product_id + ", " + session.account_id + ")");
             stm.close();
+            
         }
         catch(SQLException e){
             e.printStackTrace();
+            
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_sumbitBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,12 +210,13 @@ public class ToevoegScherm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField gewichtField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField merkField;
+    private javax.swing.JLabel messageLabel;
     private javax.swing.JTextField naamField;
     private javax.swing.JTextField soortField;
+    private javax.swing.JButton sumbitBtn;
     // End of variables declaration//GEN-END:variables
 }

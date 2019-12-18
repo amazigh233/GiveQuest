@@ -29,12 +29,13 @@ public class main extends javax.swing.JFrame {
             
             Statement stm = con.createStatement();
             
-            ResultSet myQr = stm.executeQuery("select id, password from account where email = '" + email + "'");
+            ResultSet myQr = stm.executeQuery("select id, email, password from account where email = '" + email + "'");
             
             while (myQr.next()){
                 System.out.println(myQr.getString("id") + myQr.getString("password"));
                 session.account_id = myQr.getInt("id");
                 password = myQr.getString("password");
+                session.email = myQr.getString("email");
             }
             System.out.println("" + new String(wachtwoord));
             
@@ -148,7 +149,8 @@ public class main extends javax.swing.JFrame {
         else{
             if(getinfo()){
                 message.setText("Inlog succes");
-                new ToevoegScherm().setVisible(true);
+                new menuScherm().setVisible(true);
+                this.dispose();
             }
             else{
                 message.setText("Inlog gefaald");
@@ -157,7 +159,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_sumbitButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new menuScherm().setVisible(true);
+        new registreerScherm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
