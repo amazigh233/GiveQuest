@@ -10,6 +10,6 @@ package login.scherm;
  * @author jugraj
  */
 public class session {
-    static int account_id;
-    static String email;
+    public static int account_id;
+    public static String email;
 }

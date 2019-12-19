@@ -20,7 +20,7 @@ public class GiveQuest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new menuScherm().setVisible(true);
+        new inlog().setVisible(true);
     }
     
     public static void defaultBehaviour(JFrame frame){

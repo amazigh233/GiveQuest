@@ -4,55 +4,19 @@
  * and open the template in the editor.
  */
 package login.scherm;
-import java.sql.*;
 /**
  *
  * @author jugraj
  */
-public class main extends javax.swing.JFrame {
+public class inlog extends javax.swing.JFrame {
 
-    public main() {
+    public inlog() {
         initComponents();
-        GiveQuest.setButtonLook(jButton1);
+        GiveQuest.setButtonLook(registreerButton);
         GiveQuest.defaultBehaviour(this);
         
     }
-    
-    public boolean getinfo(){
-        boolean correct = false;
-        String email = emailField.getText();
-        String password = "";
-        String wachtwoord = new String(passwordField.getPassword());
         
-        try{
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
-            
-            Statement stm = con.createStatement();
-            
-            ResultSet myQr = stm.executeQuery("select id, email, password from account where email = '" + email + "'");
-            
-            while (myQr.next()){
-                System.out.println(myQr.getString("id") + myQr.getString("password"));
-                session.account_id = myQr.getInt("id");
-                password = myQr.getString("password");
-                session.email = myQr.getString("email");
-            }
-            System.out.println("" + new String(wachtwoord));
-            
-            if(wachtwoord.equals(password)){
-                correct = true;
-            }else{
-                correct = false;
-            }
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        
-        return correct;
-        
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -66,7 +30,7 @@ public class main extends javax.swing.JFrame {
         sumbitButton = new javax.swing.JButton();
         ballLabel = new javax.swing.JLabel();
         vergeetLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        registreerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 23, 250, 400));
@@ -120,13 +84,13 @@ public class main extends javax.swing.JFrame {
         vergeetLabel.setText("Wachtwoord vergeten");
         jPanel1.add(vergeetLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 300, 180, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ball_klein.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        registreerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ball_klein.png"))); // NOI18N
+        registreerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                registreerButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, 190, 190));
+        jPanel1.add(registreerButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, 190, 190));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,26 +106,23 @@ public class main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void sumbitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumbitButtonActionPerformed
-        if((emailField.getText()).equals("Email") || (emailField.getText()).equals("")){
-            System.out.println("voer email in");
+        if(DbConnection.DBHandler.getInfo(emailField.getText(), passwordField.getPassword())){
+            message.setText("Inlog succes");
+            new menuScherm().setVisible(true);
+            this.dispose();
         }
         else{
-            if(getinfo()){
-                message.setText("Inlog succes");
-                new menuScherm().setVisible(true);
-                this.dispose();
-            }
-            else{
-                message.setText("Inlog gefaald");
-            }
+            message.setText("Inlog gefaald");
         }
+
     }//GEN-LAST:event_sumbitButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void registreerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registreerButtonActionPerformed
         new registreerScherm().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_registreerButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,21 +141,22 @@ public class main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(inlog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(inlog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(inlog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(inlog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new main().setVisible(true);
+                new inlog().setVisible(true);
             }
         });
     }
@@ -202,11 +164,11 @@ public class main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ballLabel;
     private javax.swing.JTextField emailField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel logInTextLabel;
     private javax.swing.JLabel message;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JButton registreerButton;
     private javax.swing.JLabel registrerenTextLabel;
     private javax.swing.JButton sumbitButton;
     private javax.swing.JLabel vergeetLabel;

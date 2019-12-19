@@ -122,17 +122,22 @@ public class ToevoegScherm extends javax.swing.JFrame {
 
     private void sumbitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumbitBtnActionPerformed
         try{
-            //int product_id = 0;
+            int product_id = 0;
+            session.account_id = 2;
             ResultSet myQr;
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
             Statement stm = con.createStatement();
             
-            PreparedStatement ps = con.prepareStatement("SELECT naam FROM Product WHERE naam = ?");
-            ps.setString(1, naamField.getText());
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM Product WHERE merk = ? AND naam = ? AND soort = ? AND gewicht = ?");
+            ps.setString(1, merkField.getText());
+            ps.setString(2, naamField.getText());
+            ps.setString(3, soortField.getText());
+            ps.setString(4, gewichtField.getText());
+            
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
-                messageLabel.setText("Bedoelt u misschien");
+                messageLabel.setText("Product staat al in DB");
                 myQr = stm.executeQuery("select merk, merk, soort, gewicht from Product");
                 while(myQr.next()){
                     merkField.setText("merk");
@@ -151,13 +156,13 @@ public class ToevoegScherm extends javax.swing.JFrame {
                     + gewichtField.getText() + ")"); 
             
                 //Dit hoort in donatie scherm
-                /*myQr = stm.executeQuery("select product_id from Product where naam = '" + naamField.getText() + "'");
+                myQr = stm.executeQuery("select product_id from Product where naam = '" + naamField.getText() + "'");
                 while(myQr.next()){
                     product_id = myQr.getInt("product_id");
                     
                 }
-                stm.executeUpdate("insert into Donatie " + "values (" + product_id + ", " + session.account_id + ")");
-                */
+                stm.executeUpdate("insert into Donatie(product_id, id) " + "values (" + product_id + ", " + session.account_id + ")");
+                
                 
             }
             stm.close();
