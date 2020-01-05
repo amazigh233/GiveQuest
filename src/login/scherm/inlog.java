@@ -108,7 +108,7 @@ public class inlog extends javax.swing.JFrame {
 
     
     private void sumbitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumbitButtonActionPerformed
-        if(DbConnection.DBHandler.getInfo(emailField.getText(), passwordField.getPassword())){
+        if(DbConnection.DBHandler.verifyLogin(emailField.getText(), passwordField.getPassword())){
             message.setText("Inlog succes");
             new menuScherm().setVisible(true);
             this.dispose();

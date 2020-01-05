@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import login.scherm.session;
 
 /**
@@ -20,15 +21,11 @@ import login.scherm.session;
  */
 public class DBHandler {
     
-    String url = "\"jdbc:mysql://localhost:3306/test_db\",\"test\",\"Jugraj123\"";
-    
     public String email;
     public String password;
-
-    public DBHandler(String url) {
-        this.url = url;
-    }
     
+    // <editor-fold defaultstate="collapsed" desc="SQL Connectie Functies">  
+    //Creeert connectie
     public static Connection setConnection(){
         Connection con = null;
         
@@ -43,7 +40,7 @@ public class DBHandler {
         return con;
     }
 
-    
+    //Functie voor het executen van een SQL Query
     public static ResultSet executeQuery(String Query) {
         ResultSet myQr = null;
         Connection con = setConnection();
@@ -60,32 +57,33 @@ public class DBHandler {
         return myQr;
     }
     
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    // </editor-fold>
     
-    public static boolean getInfo(String email, char[] password){
+    //<editor-fold defaultstate="collapsed" desc="Functies voor login">
+    //Functie waarmee login wordt gecheckt
+    public static boolean verifyLogin(String email, char[] password){
         boolean correct = false;
         String correcteWachtwoord = null;
         
         try{
+            //Alle informatie van ingevoerde email selecteren
             ResultSet myQr = executeQuery("SELECT * FROM account WHERE email ='" + email + "'");
             
+            //Informatie verwerken zodat we bij alle schermen weten wie er ingelogd is
             while (myQr.next()){
                 session.account_id = myQr.getInt("id");
                 correcteWachtwoord = myQr.getString("password");
                 session.email = myQr.getString("email");
             }
             
-            String i = String.valueOf(password);
+            //Ingevoerde wachtwoord ophalen
+            String invoer = String.valueOf(password);
             
-            if(i.equals(correcteWachtwoord)){
+            //Checken of invoer gelijkstaat met wachtwoord in DB
+            if(invoer.equals(correcteWachtwoord)){
                 correct = true;
             }
+            
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -94,37 +92,37 @@ public class DBHandler {
         return correct;
         
     }
+    //</editor-fold>
     
-    public static String[] donatieLijstOphalen(){
-        String[] array = {};
-        ArrayList<String> tempArray = new ArrayList<String>();
-        AbstractListModel donaties;
+    //<editor-fold defaultstate="collapsed" desc="Functies voor menu">
+    //Functie waarmee de geschiedenis van de gebruiker wordt opgehaald
+    public static ArrayList<String> donatieLijstOphalen(){
+        ArrayList<String> array = new ArrayList<String>();
         
         ResultSet myQr = executeQuery("SELECT product_id FROM Donatie WHERE id = " + session.account_id);
         try{
             while(myQr.next()){
                 ResultSet getNaam = executeQuery("SELECT naam FROM Product WHERE product_id = " + myQr.getString("product_id"));
                 while(getNaam.next()){
-                    tempArray.add(getNaam.getString("naam"));
+                    array.add(getNaam.getString("naam"));
                 }
             }
+            for(int i = 0; i < array.size(); i++){
+                //Nr
+                login.scherm.menuScherm.donatieTable.getModel().setValueAt(i + 1, i, 0);
+                
+                //Product
+                login.scherm.menuScherm.donatieTable.getModel().setValueAt(array.get(i), i, 1);
+                
+                }
         }
         catch(SQLException e){
             e.printStackTrace();
         }
         
-        donaties = new AbstractListModel<String>() {
-            String[] strings = { "test", "Item 2", "Item 3", "Item 4", "Item 5" };
-            
-            @Override
-            public int getSize() { return strings.length; }
-            
-            @Override
-            public String getElementAt(int i) { return strings[i]; }
-        };
-        
         return array;
     }
+    //</editor-fold>
     
     
 }

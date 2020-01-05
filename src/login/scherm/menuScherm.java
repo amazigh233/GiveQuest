@@ -6,6 +6,7 @@
 
 package login.scherm;
 
+import DbConnection.DBHandler;
 import javax.swing.AbstractListModel;
 
 /**
@@ -78,8 +79,8 @@ public class menuScherm extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        donatieTable = new javax.swing.JTable();
         donatieScherm = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -119,9 +120,20 @@ public class menuScherm extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ball_kleiner.png"))); // NOI18N
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, -200, -1, -1));
 
-        jScrollPane2.setViewportView(jList1);
+        donatieTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "#", "Naam", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(donatieTable);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 230, 280));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 170, 230));
 
         geschiedenisScherm.getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 420));
 
@@ -246,6 +258,8 @@ public class menuScherm extends javax.swing.JFrame {
         geschiedenisScherm.setVisible(true);
         geschiedenisScherm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
+        
+        
     }//GEN-LAST:event_geschiedenisKnopActionPerformed
 
     private void zoekFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoekFieldActionPerformed
@@ -296,6 +310,7 @@ public class menuScherm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog donatieScherm;
+    public static javax.swing.JTable donatieTable;
     private javax.swing.JButton doneerButton;
     private javax.swing.JButton geschiedenisKnop;
     private javax.swing.JDialog geschiedenisScherm;
@@ -308,11 +323,10 @@ public class menuScherm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    public static javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JDialog resultaatScherm;
     private javax.swing.JLabel welkomLabel;
     private javax.swing.JTextField zoekField;
