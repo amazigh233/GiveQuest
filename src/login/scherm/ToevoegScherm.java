@@ -5,13 +5,6 @@
  */
 package login.scherm;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 /**
  *
  * @author jugraj
@@ -129,58 +122,6 @@ public class ToevoegScherm extends javax.swing.JFrame {
         else{
             messageLabel.setText("Product staat al in het Systeem!");
         }
-        
-        /*try{
-            int product_id = 0;
-            session.account_id = 2;
-            ResultSet myQr;
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
-            Statement stm = con.createStatement();
-            
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM Product WHERE merk = ? AND naam = ? AND soort = ? AND gewicht = ?");
-            ps.setString(1, merkField.getText());
-            ps.setString(2, naamField.getText());
-            ps.setString(3, soortField.getText());
-            ps.setString(4, gewichtField.getText());
-            
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
-                messageLabel.setText("Product staat al in DB");
-                myQr = stm.executeQuery("select merk, naam, soort, gewicht from Product");
-                while(myQr.next()){
-                    merkField.setText("merk");
-                    naamField.setText("naam");
-                    soortField.setText("soort");
-                    gewichtField.setText("gewicht");
-                    
-                }
-            }
-            else{
-                messageLabel.setText("");
-                stm.executeUpdate("insert into Product(merk, naam, soort, gewicht)" + " values "
-                    + "('" + merkField.getText() + "','"
-                    + naamField.getText() + "','"
-                    + soortField.getText() + "', "
-                    + gewichtField.getText() + ")"); 
-            
-                //Dit hoort in donatie scherm
-                myQr = stm.executeQuery("select product_id from Product where naam = '" + naamField.getText() + "'");
-                while(myQr.next()){
-                    product_id = myQr.getInt("product_id");
-                    
-                }
-                stm.executeUpdate("insert into Donatie(product_id, id) " + "values (" + product_id + ", " + session.account_id + ")");
-                
-                
-            }
-            stm.close();
-            
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-            
-        }*/
     }//GEN-LAST:event_sumbitBtnActionPerformed
 
     /**
