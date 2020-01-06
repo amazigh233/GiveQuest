@@ -23,8 +23,8 @@ public class ToevoegScherm extends javax.swing.JFrame {
      */
     public ToevoegScherm() {
         initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        GiveQuest.defaultBehaviour(this);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
     }
     
@@ -121,7 +121,16 @@ public class ToevoegScherm extends javax.swing.JFrame {
     }//GEN-LAST:event_merkFieldActionPerformed
 
     private void sumbitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumbitBtnActionPerformed
-        try{
+        String [] info = {merkField.getText(), naamField.getText(), soortField.getText(), gewichtField.getText()};
+        
+        if(DbConnection.DBHandler.productToevoegen(info)){
+            this.dispose();
+        }
+        else{
+            messageLabel.setText("Product staat al in het Systeem!");
+        }
+        
+        /*try{
             int product_id = 0;
             session.account_id = 2;
             ResultSet myQr;
@@ -138,7 +147,7 @@ public class ToevoegScherm extends javax.swing.JFrame {
             
             if(rs.next()){
                 messageLabel.setText("Product staat al in DB");
-                myQr = stm.executeQuery("select merk, merk, soort, gewicht from Product");
+                myQr = stm.executeQuery("select merk, naam, soort, gewicht from Product");
                 while(myQr.next()){
                     merkField.setText("merk");
                     naamField.setText("naam");
@@ -171,7 +180,7 @@ public class ToevoegScherm extends javax.swing.JFrame {
         catch(SQLException e){
             e.printStackTrace();
             
-        }
+        }*/
     }//GEN-LAST:event_sumbitBtnActionPerformed
 
     /**

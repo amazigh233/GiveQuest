@@ -6,8 +6,7 @@
 
 package login.scherm;
 
-import DbConnection.DBHandler;
-import javax.swing.AbstractListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,51 +19,9 @@ public class menuScherm extends javax.swing.JFrame {
         initComponents();
         GiveQuest.defaultBehaviour(this);
         GiveQuest.setButtonLook(jButton1);
+        GiveQuest.setButtonLook(terugBtn);
         welkomLabel.setText("Welkom " + session.email);
-        session.account_id = 2;
-        
-        
-        
-        //jList1.setModel(test);
-        
     }
-    
-    
-    
-   /* public AbstractListModel<String> getDonatie(){
-        ArrayList<String>  x = new ArrayList<>();
-        int product_id = 0;
-
-        
-        try{
-            //setting url for db connection
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db","test","Jugraj123");
-            
-            //creating query
-            Statement stm = con.createStatement();
-            
-            ResultSet myQr = stm.executeQuery("select product_id from Donatie where id = " + session.account_id);
-            while(myQr.next()){
-                product_id = myQr.getInt("product_id");
-                
-            }
-            
-            myQr = stm.executeQuery("select naam from Product where product_id = " + product_id);
-            
-            while(myQr.next()){
-                x.add(myQr.getString("naam"));
-                
-            }
-            
-            //stm.executeUpdate("insert into Donatie " + "values (" + product_id + ", " + session.account_id + ")");
-            stm.close();
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-            
-        }
-        
-    } */
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -75,7 +32,7 @@ public class menuScherm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        geschiedenisScherm = new javax.swing.JDialog();
+        resultatenScherm = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -83,10 +40,11 @@ public class menuScherm extends javax.swing.JFrame {
         donatieTable = new javax.swing.JTable();
         donatieScherm = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        terugBtn = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         zoekField = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
-        resultaatScherm = new javax.swing.JDialog();
+        toevoegBtn = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -97,11 +55,11 @@ public class menuScherm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        geschiedenisScherm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        geschiedenisScherm.setMinimumSize(new java.awt.Dimension(250, 400));
-        geschiedenisScherm.setResizable(false);
-        geschiedenisScherm.setSize(new java.awt.Dimension(250, 400));
-        geschiedenisScherm.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        resultatenScherm.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        resultatenScherm.setMinimumSize(new java.awt.Dimension(250, 400));
+        resultatenScherm.setResizable(false);
+        resultatenScherm.setSize(new java.awt.Dimension(250, 400));
+        resultatenScherm.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBounds(new java.awt.Rectangle(0, 23, 250, 400));
@@ -114,7 +72,7 @@ public class menuScherm extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Geschiedenis");
+        jLabel4.setText("Resultaat");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 250, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ball_kleiner.png"))); // NOI18N
@@ -135,7 +93,7 @@ public class menuScherm extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 170, 230));
 
-        geschiedenisScherm.getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 420));
+        resultatenScherm.getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 420));
 
         donatieScherm.setMinimumSize(new java.awt.Dimension(250, 400));
         donatieScherm.setSize(new java.awt.Dimension(250, 418));
@@ -145,9 +103,22 @@ public class menuScherm extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(250, 418));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Donatie");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-1, 20, 250, -1));
+        terugBtn.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        terugBtn.setForeground(new java.awt.Color(255, 255, 255));
+        terugBtn.setText("↩");
+        terugBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                terugBtnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(terugBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, -1));
+
+        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Donatie");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 22, 250, 40));
 
         zoekField.setText("Zoek");
         zoekField.addActionListener(new java.awt.event.ActionListener() {
@@ -157,13 +128,16 @@ public class menuScherm extends javax.swing.JFrame {
         });
         jPanel3.add(zoekField, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 210, -1));
 
-        jButton6.setText("Zelf product toevoegen");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        toevoegBtn.setText("Zelf product toevoegen");
+        toevoegBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                toevoegBtnActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 190, -1));
+        jPanel3.add(toevoegBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 190, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ball_kleiner.png"))); // NOI18N
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, -200, -1, -1));
 
         javax.swing.GroupLayout donatieSchermLayout = new javax.swing.GroupLayout(donatieScherm.getContentPane());
         donatieScherm.getContentPane().setLayout(donatieSchermLayout);
@@ -177,9 +151,6 @@ public class menuScherm extends javax.swing.JFrame {
             donatieSchermLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        resultaatScherm.setBounds(new java.awt.Rectangle(0, 23, 250, 400));
-        resultaatScherm.setMinimumSize(new java.awt.Dimension(250, 400));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 23, 250, 400));
@@ -245,33 +216,58 @@ public class menuScherm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneerButtonActionPerformed
-        /*donatieScherm.setVisible(true);
-        donatieScherm.setLocationRelativeTo(this);
+        donatieScherm.setLocationRelativeTo(null);
+        donatieScherm.setVisible(true);
         donatieScherm.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        this.setVisible(false);*/
-        new ToevoegScherm().setVisible(true);
-        
+        this.setVisible(false);
     }//GEN-LAST:event_doneerButtonActionPerformed
 
     private void geschiedenisKnopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geschiedenisKnopActionPerformed
-        geschiedenisScherm.setLocationRelativeTo(this);
-        geschiedenisScherm.setVisible(true);
-        geschiedenisScherm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-        
-        
+        resultatenScherm.setLocationRelativeTo(this);
+        resultatenScherm.setVisible(true);
+        resultatenScherm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_geschiedenisKnopActionPerformed
 
     private void zoekFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoekFieldActionPerformed
-
+        String query = zoekField.getText();
+ 
+        //Data van tabel
+        Object data[] = {"Naam"};
+        String[] result = DbConnection.DBHandler.search(query);
+        
+        //Nieuwe tabel creeren met data[] als Kolom
+        DefaultTableModel model = new DefaultTableModel(data, 0);
+        
+        //Elke element in results in model toevoegen
+        for(int y = 0; y < result.length; y++){
+            String[] tempArr = {result[y]};
+            model.addRow(tempArr);
+        }
+        
+        //Uiteindelijk model in de tabel zetten
+        donatieTable.setModel(model);
+        
+        //De resultaten weergeven in een nieuw scherm
+        resultatenScherm.setLocationRelativeTo(this);
+        resultatenScherm.setVisible(true);
+        resultatenScherm.setAlwaysOnTop(true);
+        resultatenScherm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        
+        
     }//GEN-LAST:event_zoekFieldActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void toevoegBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toevoegBtnActionPerformed
         ToevoegScherm tv = new ToevoegScherm();
-        tv.setVisible(true);
         GiveQuest.defaultBehaviour(tv);
+        tv.setVisible(true);
         tv.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_toevoegBtnActionPerformed
+
+    private void terugBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terugBtnActionPerformed
+        donatieScherm.dispose();
+        this.setVisible(true);
+    }//GEN-LAST:event_terugBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,21 +309,22 @@ public class menuScherm extends javax.swing.JFrame {
     public static javax.swing.JTable donatieTable;
     private javax.swing.JButton doneerButton;
     private javax.swing.JButton geschiedenisKnop;
-    private javax.swing.JDialog geschiedenisScherm;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JDialog resultaatScherm;
+    private javax.swing.JDialog resultatenScherm;
+    private javax.swing.JButton terugBtn;
+    private javax.swing.JButton toevoegBtn;
     private javax.swing.JLabel welkomLabel;
     private javax.swing.JTextField zoekField;
     // End of variables declaration//GEN-END:variables
